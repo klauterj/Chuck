@@ -172,7 +172,6 @@
     if (showIconPreviews && [appName length] > 0) {
         NSWorkspace *workspace = [NSWorkspace sharedWorkspace];
         appPath = [workspace fullPathForApplication:appName];
-
         if (appPath == nil) {
             appName = @"";
         } else {
@@ -187,7 +186,7 @@
         [iconView setImage:nil];
     }
 
-    [appLabel setStringValue:appName];
+    [appLabel setStringValue:[appName fileNameWithoutExtension]];
     [appLabel setToolTip:appPath];
 
     [self setSelectedAppPath:appPath];
@@ -209,7 +208,7 @@
 
     // We only need the names to complete.
     results = [results map:^(id result) {
-        return (id)[(SearchResult *)result name];
+        return (id)[[(SearchResult *)result name] fileNameWithoutExtension];
     }];
 
     // If an alias exists, it is to be preferred as the first item.
