@@ -8,6 +8,8 @@
 
 #import "GlobalHotKeyRegistrar.h"
 
+static const CGKeyCode kEscapeKeyCode = 53;
+
 static OSStatus hotKeyHandler(EventHandlerCallRef nextHandler,
                               EventRef event, void *info)
 {
@@ -55,6 +57,20 @@ static inline UInt32 NSModifierFlagsToCarbonModifiers(NSUInteger mask)
 	hotKeyID.id = 1;
 	RegisterEventHotKey(keyCode, flags, hotKeyID,
 	                    GetApplicationEventTarget(), 0, &hotKeyRef);
+}
+
+- (void)registerEscapeKey {
+  if (escapeKeyHotKeyRef == NULL) {
+    EventHotKeyID hotKeyID;
+    hotKeyID.signature = 0;
+    hotKeyID.id = 1;
+    RegisterEventHotKey(kEscapeKeyCode, 0, hotKeyID, GetApplicationEventTarget(), 0, &escapeKeyHotKeyRef);    
+  }
+}
+
+- (void)unregisterEscapeKey {
+  UnregisterEventHotKey(escapeKeyHotKeyRef);
+  escapeKeyHotKeyRef = NULL;
 }
 
 - (void)setHotKeyToKeyCode:(CGKeyCode)code
