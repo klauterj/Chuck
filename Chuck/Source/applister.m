@@ -185,7 +185,7 @@ static inline double getSeconds(void)
 
 #if defined(DEBUG)
     DLog(@"took %.4f seconds", getSeconds() - cur);
-    DLog(@"Found %d apps", [list count]);
+    DLog(@"Found %d apps", (int)[list count]);
 #endif
 
     if ([delegate respondsToSelector:@selector(doneLoadingAppList:)]) {
@@ -234,8 +234,7 @@ static NSArray *copyListOfAppsInSubDir(NSString *dir,
     [files do:^(id filename) {
         NSString *fullPath = [dir stringByAppendingPathComponent:filename];
         if ([filename hasSuffix:@".app"]) {
-            NSString *appName = [filename stringByDeletingPathExtension];
-            SearchResult *result = [[SearchResult alloc] initWithName:appName
+            SearchResult *result = [[SearchResult alloc] initWithName:filename
                                                                  path:fullPath];
             [apps addObject:result];
             [result release];

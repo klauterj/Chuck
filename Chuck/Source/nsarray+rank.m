@@ -33,7 +33,6 @@
 - (NSArray *)sortedResultsUsingTerm:(NSString *)term
 {
     if ([self count] == 0) return [[self retain] autorelease];
-
     NSMutableArray *results =
         [NSMutableArray arrayWithArray:[self map:^(id result) {
             NSAssert1([result conformsToProtocol:@protocol(RankableObject)],
@@ -49,7 +48,7 @@
                 return [scoreContainer autorelease];
             }
 
-            return (id)nil;
+            return (RankableObjectContainer *)nil;
         }]];
 
     [results sortUsingSelector:@selector(compare:)];
